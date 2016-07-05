@@ -1,0 +1,81 @@
+<!doctype html>
+<html>
+  <head>
+    <title>Socket.IO chat</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=1.0, minimum-scale=1.0, maximum-scale=1.0">
+    <style>
+      * { margin: 0; padding: 0; box-sizing: border-box; }
+      body { font: 13px Helvetica, Arial; }
+      .boxes{display: flex; align-items: center; justify-content: space-between; width: 600px; margin: 0 auto; flex-wrap: wrap;}
+      .button{height: 100px; width: 100px; background-color: green; margin: 10px; display: block;}
+      .button.active{background-color: red;}
+    </style>
+  </head>
+  <body>
+    <ul class="boxes">
+      <li class="button"></li>
+      <li class="button"></li>
+      <li class="button"></li>
+      <li class="button"></li>
+      <li class="button"></li>
+      <li class="button"></li>
+      <li class="button"></li>
+      <li class="button"></li>
+      <li class="button"></li>
+      <li class="button"></li>
+      <li class="button"></li>
+      <li class="button"></li>
+      <li class="button"></li>
+      <li class="button"></li>
+      <li class="button"></li>
+      <li class="button"></li>
+      <li class="button"></li>
+      <li class="button"></li>
+      <li class="button"></li>
+      <li class="button"></li>
+      <li class="button"></li>
+      <li class="button"></li>
+      <li class="button"></li>
+      <li class="button"></li>
+      <li class="button"></li>
+    </ul>
+
+    <script src="/socket.io/socket.io.js"></script>
+    <script>
+      var socket = io();
+      var buttons = document.getElementsByClassName('button');
+      var buttonsLength = buttons.length;
+      var myColor = '';
+
+      for (var i = 0; i < buttonsLength; i++) {
+        (function(_i) {
+          buttons[_i].addEventListener('click', function(e) {
+            socket.emit('button:pressed', _i, myColor);
+          });
+        }(i));
+      }
+
+      socket.on('start', function(data) {
+        console.log(data.color);
+        myColor = myColor || data.color;
+        for (var i = 0; i < buttonsLength; i++) {
+          (function(_i) {
+            buttons[_i].style.backgroundColor = data.state[_i];
+          })(i);
+        }
+      });
+
+      socket.on('button:pressed', function(i, color) {
+        console.log(i);
+        buttons[i].style.backgroundColor = color;
+      });
+
+      socket.on('boom', function(color) {
+        document.body.style.backgroundColor = color;
+        setTimeout(function() {
+          document.body.style.backgroundColor = '';
+        }, 2000);
+      });
+    </script>
+  </body>
+</html>
