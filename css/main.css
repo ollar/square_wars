@@ -1,0 +1,15 @@
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body { font: 13px Helvetica, Arial; }
+.boxes{display: flex; align-items: center; justify-content: space-between; width: 600px; margin: 0 auto; flex-wrap: wrap;}
+.button{height: 100px; width: 100px; background-color: green; margin: 10px; display: block;}
+.button.active{background-color: red;}
+
+.field{
+    margin:auto;
+}
+.field__row{
+    display: flex; align-items: center; flex-wrap: nowrap;
+}
+.field__item{
+    height: 100px; width: 100px; background-color: green; margin: 10px; display: block;
+}
