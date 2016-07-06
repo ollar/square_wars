@@ -70,6 +70,7 @@ function combo(items, socket) {
   io.emit('update', {
     fields: fieldItems
   });
+  io.emit('boom', items);
   updatePlayers();
 }
 

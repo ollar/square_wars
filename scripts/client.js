@@ -16,7 +16,23 @@ socket.on('updatePlayers', function(data) {
   playersTable(data);
 });
 
-var name = prompt('Вас кличут:');
+socket.on('boom', function(items) {
+  _.each(items, function(item, i) {
+    var target = document.querySelector('[data-id="' + item.id + '"]');
+
+    target.className = 'field__item';
+
+    target.classList.add('rubberBand');
+    target.classList.add('animated');
+
+    setTimeout(function() {
+      target.className = 'field__item';
+    }, 700);
+  });
+});
+
+var name = localStorage.getItem('name') || prompt('Вас кличут:');
+localStorage.setItem('name', name);
 socket.emit('addPlayer', name);
 
 function playersTable(players) {
@@ -74,6 +90,13 @@ function addEvents() {
   field.addEventListener("click", function(e) {
     var target = e.target;
     if (!target.classList.contains('field__item')) return;
+
+    target.className = 'field__item';
+    target.classList.add('bounceIn');
+    target.classList.add('animated');
+    setTimeout(function() {
+      target.className = 'field__item';
+    }, 500);
     socket.emit('button:pressed', target.getAttribute('data-id'));
   });
 }
